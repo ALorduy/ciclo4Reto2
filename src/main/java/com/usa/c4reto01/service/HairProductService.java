@@ -46,22 +46,28 @@ public class HairProductService {
     }
     
     public HairProduct update(HairProduct product){
+        if(product.getReference()!= null){
         Optional<HairProduct> existsProduct=repository.getByReference(product.getReference());
-        if(existsProduct.isPresent()){
+        if(!existsProduct.isEmpty()){
             if(product.getReference()!=null){
                 existsProduct.get().setReference(product.getReference());
             }
-            if(product.getName()!=null){
-                existsProduct.get().setName(product.getName());
-            }
+     
             if(product.getBrand()!=null){
                 existsProduct.get().setBrand(product.getBrand());
             }
+            
+            if(product.getCategory()!=null){
+                existsProduct.get().setCategory(product.getCategory());
+            }
+            
+            if(product.getName()!=null){
+                existsProduct.get().setName(product.getName());
+            
             if(product.getDescription()!=null){
                 existsProduct.get().setDescription(product.getDescription());
             }
-            if(product.getCategory()!=null){
-                existsProduct.get().setCategory(product.getCategory());
+            
             }
             if(product.getPhotography()!=null){
                 existsProduct.get().setPhotography(product.getPhotography());
@@ -76,7 +82,10 @@ public class HairProductService {
             
             existsProduct.get().setAvailability(product.isAvailability());
                 
-            return repository.save(existsProduct.get());
+            return repository.update(existsProduct.get());
+        }else{
+            return product;
+        }
         }else{
             return product;
         }
@@ -84,16 +93,17 @@ public class HairProductService {
     }
     
    
-   public Optional<HairProduct> getHairProduct(String reference){
+   public Optional<HairProduct> getHairProductByRefence(String reference){
         return repository.getByReference(reference);
     }
    
     public boolean delete(String reference) {
-        Boolean aBoolean = getHairProduct(reference).map(product -> {
+        Boolean aBoolean = getHairProductByRefence(reference).map(product -> {
             repository.delete(product);
             return true;
         }).orElse(false);
         return aBoolean;
     }
+    
     
 }

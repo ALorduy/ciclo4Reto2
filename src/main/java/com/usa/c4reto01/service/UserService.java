@@ -33,6 +33,8 @@ public class UserService {
     public Optional<User> getUserById(Integer id){
         return repository.getById(id);
     }
+    
+
     /**
      * 
      * @param email
@@ -60,8 +62,9 @@ public class UserService {
         return repository.save(user);      
     }
     public User update(User user){
-        Optional<User> existsUser=repository.getById(user.getId());
-        if(existsUser.isPresent()){
+        if(user.getId()!= null){
+            Optional<User> existsUser=repository.getById(user.getId());
+        if(!existsUser.isEmpty()){
             if(user.getIdentification()!=null){
                 existsUser.get().setIdentification(user.getIdentification());
             }
@@ -69,7 +72,7 @@ public class UserService {
                 existsUser.get().setName(user.getName());
             }
             if(user.getAddress()!=null){
-                existsUser.get().setAddress(user.getIdentification());
+                existsUser.get().setAddress(user.getAddress());
             }  
             
             if(user.getCellPhone()!=null){
@@ -91,7 +94,9 @@ public class UserService {
         }else{
             return user;
         }
-        
+    }else{
+            return user;
+        }
     }
     
     

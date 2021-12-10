@@ -38,8 +38,8 @@ public class HairProductRepository {
         return repository.save(hairProduct);
     }
     
-    public void update(HairProduct product) {
-        repository.save(product);
+    public HairProduct update(HairProduct product) {
+        return repository.save(product);
     }
 
     
